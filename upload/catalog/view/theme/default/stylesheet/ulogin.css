@@ -1,0 +1,27 @@
+.ulogin_form {
+    display: inline-block;
+    line-height: 1em;
+}
+.ulogin_accounts, .ulogin_form, .ulogin_note {
+    margin-top: 5px;
+    margin-left: 15px;
+}
+
+.panel.ulogin_panel {
+    clear: both;
+}
+
+.ulogin_provider {
+    margin-right: 10px;
+    display: inline-block;
+    cursor: pointer;
+    float: left;
+}
+
+.ulogin_provider:hover {
+    opacity: 0.75;
+}
+
+.ulogin_right {
+    float: right;
+}
