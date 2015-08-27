@@ -74,6 +74,8 @@ License: GNU General Public License, version 2
 
         <?php echo $ulogin_form_marker;?>
 
+Панель синхронизации в личном кабинете пользователя и панель авториации на страницах входа и регистрации настраивается в **модулях uLogin - панель > account_lk_online** и **uLogin - панель > account_offline**.
+
 ## Изменения
 
 ####2.0.1
