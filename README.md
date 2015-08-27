@@ -67,12 +67,10 @@ License: GNU General Public License, version 2
 Для ручного вывода панели авторизации в любом месте шаблона темы OpenCart необходимо следать следующее:
 
 - Добавить контроллёр модуля в php файл шаблона, например, для вывода панели в хэдере, необходимо добавить этот код в файл catalog/controller/common/header.php:
-
-        $data['ulogin_messager_marker'] = $this->load->controller('module/ulogin/messager');
+  $data['ulogin_messager_marker'] = $this->load->controller('module/ulogin/messager');
 
 - Добавить вывод панели в шаблоне catalog/view/theme/default/template/common/header.tpl, например после строки `<div class="collapse navbar-collapse navbar-ex1-collapse">`:
-
-        <?php echo $ulogin_form_marker;?>
+  <?php echo $ulogin_form_marker;?>
 
 ## Изменения
 
