@@ -66,11 +66,11 @@ class ControllerModuleUloginSets extends Controller {
 
 		if(file_exists(DIR_APPLICATION . 'model/customer/customer_group.php')){
 			$this->load->model('customer/customer_group');
+			$data['customer_groups'] = $this->model_customer_customer_group->getCustomerGroups();
 		} else {
 			$this->load->model('sale/customer_group');
+			$data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
 		}
-
-		$data['customer_groups'] = $this->model_customer_customer_group->getCustomerGroups();
 
 		if (isset($this->request->post['ulogin_sets_group'])) {
 			$data['ulogin_sets_group'] = $this->request->post['ulogin_sets_group'];
@@ -124,13 +124,15 @@ class ControllerModuleUloginSets extends Controller {
 		//создание группы uLogin
 		if(file_exists(DIR_APPLICATION . 'model/customer/customer_group.php')){
 			$this->load->model('customer/customer_group');
+			$modelName = 'model_customer_customer_group';
 		} else {
 			$this->load->model('sale/customer_group');
+			$modelName = 'model_sale_customer_group';
 		}
 		$this->load->model('localisation/language');
 		$this->load->model('setting/setting');
 
-		$groups = $this->model_customer_customer_group->getCustomerGroups();
+		$groups = $this->$modelName->getCustomerGroups();
 
 		foreach ($groups as $group) {
 			if ($group['name'] == 'uLogin') {
@@ -151,7 +153,7 @@ class ControllerModuleUloginSets extends Controller {
 		}
 
 		$default_group_id = $this->config->get('config_customer_group_id');
-		$default_group = $this->model_customer_customer_group->getCustomerGroup($default_group_id);
+		$default_group = $this->$modelName->getCustomerGroup($default_group_id);
 
 		$data = array(
 			'approval' => $default_group['approval'],
@@ -161,9 +163,9 @@ class ControllerModuleUloginSets extends Controller {
 
 		// установка параметров
 		$group_id = $this->config->get('config_customer_group_id');
-		$this->model_customer_customer_group->addCustomerGroup($data);
+		$this->$modelName->addCustomerGroup($data);
 
-		$groups = $this->model_customer_customer_group->getCustomerGroups();
+		$groups = $this->$modelName->getCustomerGroups();
 		foreach ($groups as $group) {
 			if ($group['name'] == 'uLogin') {
 				$group_id = $group['customer_group_id'];
