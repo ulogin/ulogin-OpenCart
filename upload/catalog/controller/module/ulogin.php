@@ -11,10 +11,10 @@ class ControllerModuleUlogin extends Controller {
 	public function index($setting) {
 		$this->load->language('module/ulogin');
 
-		$this->document->addScript('http://ulogin.ru/js/ulogin.js');
+		$this->document->addScript('https://ulogin.ru/js/ulogin.js');
 		$this->document->addScript('catalog/view/javascript/ulogin.js');
 		$this->document->addStyle('catalog/view/theme/default/stylesheet/ulogin.css');
-		$this->document->addStyle('http://ulogin.ru/css/providers.css');
+		$this->document->addStyle('https://ulogin.ru/css/providers.css');
 
 		$url = $this->url->link('module/ulogin/login', '', 'SSL');
 		$data['heading_title'] = $this->language->get('heading_title');
