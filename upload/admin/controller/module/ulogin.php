@@ -169,7 +169,7 @@ class ControllerModuleUlogin extends Controller {
 		$layouts = $this->model_design_layout->getLayouts();
 
 		foreach ($layouts as $layout) {
-			if ($layout["name"] == "Account") {
+			if ($layout["name"] == "Account" || $layout["name"] == "Аккаунт") {
 				$layout_id = $layout['layout_id'];
 				break;
 			}
