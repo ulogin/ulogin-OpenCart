@@ -68,7 +68,9 @@ License: GNU General Public License, version 2
 
 - Добавить контроллёр модуля в php файл шаблона, например, для вывода панели в хэдере, необходимо добавить этот код в файл `catalog/controller/common/header.php`:
 
-        $data['ulogin_form_marker'] = $this->load->controller('module/ulogin');
+        $data['ulogin_form_marker'] = $this->load->controller('module/ulogin');    
+    Обратите внимание: добавить код нужно в начало метода index соответствующего контроллера.
+
 
 - Добавить вывод панели в шаблоне `catalog/view/theme/default/template/common/header.tpl`, например после строки `<div class="collapse navbar-collapse navbar-ex1-collapse">`:
 
