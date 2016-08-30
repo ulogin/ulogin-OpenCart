@@ -1,5 +1,5 @@
 <?php
-class ModelModuleUlogin extends Model {
+class ModelExtensionModuleUlogin extends Model {
 	/**
 	 * Проверка, есть ли пользователь с указанным id в базе
 	 * @param $u_id

@@ -35,7 +35,7 @@ function getURLVar(key) {
 
 function uloginCallback(token){
 	jQuery.ajax({
-		url: '/index.php?route=module/ulogin/login',
+		url: '/index.php?route=extension/module/ulogin/login',
 		type: 'POST',
 		dataType: 'json',
 		cache: false,
@@ -98,7 +98,7 @@ function uloginMessage(title, msg, type) {
 
 function uloginDeleteAccount(network){
 	jQuery.ajax({
-		url: '/index.php?route=module/ulogin/delete',
+		url: '/index.php?route=extension/module/ulogin/delete',
 		type: 'POST',
 		dataType: 'json',
 		cache: false,

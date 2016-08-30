@@ -1,9 +1,9 @@
 <?php
-class ControllerModuleUlogin extends Controller {
+class ControllerExtensionModuleUlogin extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('module/ulogin');
+		$this->load->language('extension/module/ulogin');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -18,7 +18,7 @@ class ControllerModuleUlogin extends Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$this->response->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'], 'SSL'));
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');
@@ -30,7 +30,7 @@ class ControllerModuleUlogin extends Controller {
 		}
 		$data['text_enabled'] = $this->language->get('text_enabled');
 		$data['text_disabled'] = $this->language->get('text_disabled');
-		$data['text_module_description'] = sprintf($this->language->get('text_module_description'), $this->url->link('module/ulogin_sets', 'token=' . $this->session->data['token'], 'SSL'));
+		$data['text_module_description'] = sprintf($this->language->get('text_module_description'), $this->url->link('extension/module/ulogin_sets', 'token=' . $this->session->data['token'], 'SSL'));
 		$data['text_type_offline'] = $this->language->get('text_type_offline');
 		$data['text_type_online'] = $this->language->get('text_type_online');
 		$data['text_type_online_edit_page'] = $this->language->get('text_type_online_edit_page');
@@ -71,22 +71,22 @@ class ControllerModuleUlogin extends Controller {
 		if (!isset($this->request->get['module_id'])) {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('module/ulogin', 'token=' . $this->session->data['token'], 'SSL')
+				'href' => $this->url->link('extension/module/ulogin', 'token=' . $this->session->data['token'], 'SSL')
 			);
 		} else {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('module/ulogin', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], 'SSL')
+				'href' => $this->url->link('extension/module/ulogin', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], 'SSL')
 			);
 		}
 
 		if (!isset($this->request->get['module_id'])) {
-			$data['action'] = $this->url->link('module/ulogin', 'token=' . $this->session->data['token'], 'SSL');
+			$data['action'] = $this->url->link('extension/module/ulogin', 'token=' . $this->session->data['token'], 'SSL');
 		} else {
-			$data['action'] = $this->url->link('module/ulogin', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], 'SSL');
+			$data['action'] = $this->url->link('extension/module/ulogin', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], 'SSL');
 		}
 
-		$data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
+		$data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'], 'SSL');
 
 		if (isset($this->request->get['module_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$module_info = $this->model_extension_module->getModule($this->request->get['module_id']);
@@ -128,11 +128,11 @@ class ControllerModuleUlogin extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('module/ulogin.tpl', $data));
+		$this->response->setOutput($this->load->view('extension/module/ulogin.tpl', $data));
 	}
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'module/ulogin')) {
+		if (!$this->user->hasPermission('modify', 'extension/module/ulogin')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
@@ -147,7 +147,7 @@ class ControllerModuleUlogin extends Controller {
 	public function install() {
 		$this->load->model('extension/module');
 		$this->load->model('design/layout');
-		$this->load->model('module/ulogin');
+		$this->load->model('extension/module/ulogin');
 
 		$code = 'ulogin';
 		$layout_id = 0;
@@ -196,7 +196,7 @@ class ControllerModuleUlogin extends Controller {
 			$data['layout_id'] = $layout_id;
 
 			// установка модуля в макет
-			$this->model_module_ulogin->addModuleInLayout($data);
+			$this->model_extension_module_ulogin->addModuleInLayout($data);
 		}
 	}
 

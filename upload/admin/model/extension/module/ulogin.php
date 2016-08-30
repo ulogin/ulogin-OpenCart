@@ -1,5 +1,5 @@
 <?php
-class ModelModuleUlogin extends Model {
+class ModelExtensionModuleUlogin extends Model {
 	public function addModuleInLayout($data) {
 		$layout_id = $data['layout_id'];
 		$code = $data['code'];

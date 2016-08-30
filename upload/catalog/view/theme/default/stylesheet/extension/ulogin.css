@@ -3,8 +3,7 @@
     line-height: 1em;
 }
 .ulogin_accounts, .ulogin_form, .ulogin_note {
-    margin-top: 5px;
-    margin-left: 15px;
+    margin: 5px 15px;
 }
 
 .panel.ulogin_panel {

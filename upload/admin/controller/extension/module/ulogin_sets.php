@@ -1,9 +1,9 @@
 <?php
-class ControllerModuleUloginSets extends Controller {
+class ControllerExtensionModuleUloginSets extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('module/ulogin_sets');
+		$this->load->language('extension/module/ulogin_sets');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -14,7 +14,7 @@ class ControllerModuleUloginSets extends Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$this->response->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'], 'SSL'));
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');
@@ -46,17 +46,17 @@ class ControllerModuleUloginSets extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_module'),
-			'href' => $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL')
+			'href' => $this->url->link('extension/extension', 'token=' . $this->session->data['token'], 'SSL')
 		);
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('module/ulogin_sets', 'token=' . $this->session->data['token'], 'SSL')
+			'href' => $this->url->link('extension/module/ulogin_sets', 'token=' . $this->session->data['token'], 'SSL')
 		);
 
-		$data['action'] = $this->url->link('module/ulogin_sets', 'token=' . $this->session->data['token'], 'SSL');
+		$data['action'] = $this->url->link('extension/module/ulogin_sets', 'token=' . $this->session->data['token'], 'SSL');
 
-		$data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
+		$data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'], 'SSL');
 
 		if (isset($this->request->post['ulogin_sets_uloginid'])) {
 			$data['ulogin_sets_uloginid'] = $this->request->post['ulogin_sets_uloginid'];
@@ -90,11 +90,11 @@ class ControllerModuleUloginSets extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('module/ulogin_sets.tpl', $data));
+		$this->response->setOutput($this->load->view('extension/module/ulogin_sets.tpl', $data));
 	}
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'module/ulogin_sets')) {
+		if (!$this->user->hasPermission('modify', 'extension/module/ulogin_sets')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

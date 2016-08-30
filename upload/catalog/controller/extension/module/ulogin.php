@@ -1,5 +1,5 @@
 <?php
-class ControllerModuleUlogin extends Controller {
+class ControllerExtensionModuleUlogin extends Controller {
 	protected $u_data;
 	protected $currentUserId;
 	protected $userIsLogged;
@@ -9,14 +9,14 @@ class ControllerModuleUlogin extends Controller {
 	private $userRegistration;
 
 	public function index($setting) {
-		$this->load->language('module/ulogin');
+		$this->load->language('extension/module/ulogin');
 
 		$this->document->addScript('https://ulogin.ru/js/ulogin.js');
-		$this->document->addScript('catalog/view/javascript/ulogin.js');
-		$this->document->addStyle('catalog/view/theme/default/stylesheet/ulogin.css');
-		$this->document->addStyle('https://ulogin.ru/css/providers.css');
+		$this->document->addScript('catalog/view/javascript/extension/ulogin.js');
+		$this->document->addStyle('catalog/view/theme/default/stylesheet/extension/ulogin.css');
+		$this->document->addStyle('https://ulogin.ru/version/2.0/css/providers.min.css');
 
-		$url = $this->url->link('module/ulogin/login', '', 'SSL');
+		$url = $this->url->link('extension/module/ulogin/login', '', 'SSL');
 		$data['heading_title'] = $this->language->get('heading_title');
 		$route = isset($this->request->get['route']) ? $this->request->get['route'] : '';
 		$data['redirect_uri'] = urlencode($url.  '&backurl=' . $route);
@@ -32,22 +32,16 @@ class ControllerModuleUlogin extends Controller {
 
 		$data['uloginid'] = !empty($setting['uloginid']) ? $setting['uloginid'] : $this->config->get('ulogin_sets_uloginid');
 
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/ulogin/ulogin_form.tpl')) {
-			$ulogin_form .= $this->load->view($this->config->get('config_template') . '/template/module/ulogin/ulogin_form.tpl', $data);
-		} else {
-			$ulogin_form .= $this->load->view('default/template/module/ulogin/ulogin_form.tpl', $data);
-		}
-
-		$data['ulogin_form'] = $ulogin_form;
+		$data['ulogin_form'] = $this->load->view('extension/module/ulogin/ulogin_form.tpl', $data);
 
 		$ulogin_type = isset($setting['type']) ? $setting['type'] : '';
 		$ulogin_status = $this->config->get('ulogin_sets_status');
 
 		if (empty($ulogin_type) && !$this->userIsLogged && !empty($ulogin_status)) {
-			$tpl .= '/template/module/ulogin/ulogin_form.tpl';
+			$tpl .= '/extension/module/ulogin/ulogin_form.tpl';
 
 		} elseif (!$this->userIsLogged && $ulogin_type == 'offline') {
-			$tpl .= '/template/module/ulogin/ulogin_panel.tpl';
+			$tpl .= '/extension/module/ulogin/ulogin_panel.tpl';
 
 		} elseif ($ulogin_type == 'online' || ($route == 'account/edit' && $ulogin_type == 'online_edit')) {
 
@@ -57,25 +51,21 @@ class ControllerModuleUlogin extends Controller {
 			$data['delete_account'] = $this->language->get('delete_account');
 			$data['delete_account_explain'] = $this->language->get('delete_account_explain');
 
-			$this->load->model('module/ulogin');
-			$data['networks'] = $this->model_module_ulogin->getUloginUserNetworks($currentUserId);
+			$this->load->model('extension/module/ulogin');
+			$data['networks'] = $this->model_extension_module_ulogin->getUloginUserNetworks($currentUserId);
 
-			$tpl .= '/template/module/ulogin/ulogin_profile.tpl';
+			$tpl .= '/extension/module/ulogin/ulogin_profile.tpl';
 
 		} else return $html;
 
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . $tpl)) {
-			$html .= $this->load->view($this->config->get('config_template') . $tpl, $data);
-		} else {
-			$html .= $this->load->view('default' . $tpl, $data);
-		}
+        $html .= $this->load->view($tpl, $data);
 
 		return $html;
 	}
 
 
 	public function messager() {
-		$this->load->language('module/ulogin');
+		$this->load->language('extension/module/ulogin');
 		$html = '';
 
 		$data_message['ulogin_success'] = isset($this->session->data['ulogin_success']) ? $this->session->data['ulogin_success'] : '';
@@ -84,20 +74,14 @@ class ControllerModuleUlogin extends Controller {
 		unset($this->session->data['ulogin_success']);
 		unset($this->session->data['ulogin_error_warning']);
 
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/ulogin/ulogin_message.tpl')) {
-			$html .= $this->load->view($this->config->get('config_template') . '/template/module/ulogin/ulogin_message.tpl', $data_message);
-		} else {
-			$html .= $this->load->view('default/template/module/ulogin/ulogin_message.tpl', $data_message);
-		}
-
-		return $html;
+		return $this->load->view('/extension/module/ulogin/ulogin_message.tpl', $data_message);
 	}
 
 
 	public function login() {
-		$this->load->language('module/ulogin');
+		$this->load->language('extension/module/ulogin');
 
-		$this->load->model('module/ulogin');
+		$this->load->model('extension/module/ulogin');
 		$this->load->model('account/customer');
 
 		$currentUserId = $this->customer->isLogged();
@@ -124,8 +108,8 @@ class ControllerModuleUlogin extends Controller {
 
 
 	public function delete() {
-		$this->load->language('module/ulogin');
-		$this->load->model('module/ulogin');
+		$this->load->language('extension/module/ulogin');
+		$this->load->model('extension/module/ulogin');
 
 		$currentUserId = $this->customer->isLogged();
 		$this->currentUserId = $currentUserId ? $currentUserId : 0;
@@ -146,12 +130,12 @@ class ControllerModuleUlogin extends Controller {
 		}
 
 		try {
-			$u_user_db = $this->model_module_ulogin->getUloginUserItem(array('identity' => $this->u_data['identity']));
+			$u_user_db = $this->model_extension_module_ulogin->getUloginUserItem(array('identity' => $this->u_data['identity']));
 			$user_id = 0;
 
 			if ( $u_user_db ) {
 
-				if ($this->model_module_ulogin->checkUserId($u_user_db['user_id'])) {
+				if ($this->model_extension_module_ulogin->checkUserId($u_user_db['user_id'])) {
 					$user_id = $u_user_db['user_id'];
 				}
 
@@ -174,7 +158,7 @@ class ControllerModuleUlogin extends Controller {
 			if ( $user_id > 0 ) {
 				$this->loginUser( $user_id );
 
-				$networks = $this->model_module_ulogin->getUloginUserNetworks( $user_id );
+				$networks = $this->model_extension_module_ulogin->getUloginUserNetworks( $user_id );
 				$this->sendMessage(array(
 					'title' => $title,
 					'msg' => $msg,
@@ -273,10 +257,10 @@ class ControllerModuleUlogin extends Controller {
 
 		if ($u_user_db) {
 			// данные о пользователе есть в ulogin_user, но отсутствуют в users => удалить их
-			$this->model_module_ulogin->deleteUloginAccount(array('id' => $u_user_db['id']));
+			$this->model_extension_module_ulogin->deleteUloginAccount(array('id' => $u_user_db['id']));
 		}
 
-		$CMSuserId = $this->model_module_ulogin->getUserIdByEmail($u_data['email']);
+		$CMSuserId = $this->model_extension_module_ulogin->getUserIdByEmail($u_data['email']);
 
 		// $emailExists == true -> есть пользователь с таким email
 		$user_id = 0;
@@ -311,7 +295,7 @@ class ControllerModuleUlogin extends Controller {
 
 			$user_id = $userIsLogged ? $currentUserId : $user_id;
 
-			$other_u = $this->model_module_ulogin->getUloginUserItem(array(
+			$other_u = $this->model_extension_module_ulogin->getUloginUserItem(array(
 				'user_id' => $user_id,
 			));
 
@@ -383,7 +367,7 @@ class ControllerModuleUlogin extends Controller {
 
 		// присвоение группы
 		if ($customer_info['customer_group_id'] != $customer_group_id && $customer_group_id > 0)	{
-			$this->model_module_ulogin->setUserGroup($customer_group_id, $customer_id);
+			$this->model_extension_module_ulogin->setUserGroup($customer_group_id, $customer_id);
 		}
 
 
@@ -400,7 +384,7 @@ class ControllerModuleUlogin extends Controller {
 	 * @return bool
 	 */
 	protected function addUloginAccount($user_id){
-		$res = $this->model_module_ulogin->addUloginAccount(array(
+		$res = $this->model_extension_module_ulogin->addUloginAccount(array(
 			'user_id' => $user_id,
 			'identity' => strval($this->u_data['identity']),
 			'network' => $this->u_data['network'],
@@ -685,136 +669,6 @@ class ControllerModuleUlogin extends Controller {
 		return true;
 	}
 
-
-//	/**
-//	 * Гнерация логина пользователя
-//	 * в случае успешного выполнения возвращает уникальный логин пользователя
-//	 * @param $first_name
-//	 * @param string $last_name
-//	 * @param string $nickname
-//	 * @param string $bdate
-//	 * @param array $delimiters
-//	 * @return string
-//	 */
-//	protected function generateNickname($first_name, $last_name="", $nickname="", $bdate="", $delimiters=array('.', '_')) {
-//		$delim = array_shift($delimiters);
-//
-//		$first_name = $this->translitIt($first_name);
-//		$first_name_s = substr($first_name, 0, 1);
-//
-//		$variants = array();
-//		if (!empty($nickname))
-//			$variants[] = $nickname;
-//		$variants[] = $first_name;
-//		if (!empty($last_name)) {
-//			$last_name = $this->translitIt($last_name);
-//			$variants[] = $first_name.$delim.$last_name;
-//			$variants[] = $last_name.$delim.$first_name;
-//			$variants[] = $first_name_s.$delim.$last_name;
-//			$variants[] = $first_name_s.$last_name;
-//			$variants[] = $last_name.$delim.$first_name_s;
-//			$variants[] = $last_name.$first_name_s;
-//		}
-//		if (!empty($bdate)) {
-//			$date = explode('.', $bdate);
-//			$variants[] = $first_name.$date[2];
-//			$variants[] = $first_name.$delim.$date[2];
-//			$variants[] = $first_name.$date[0].$date[1];
-//			$variants[] = $first_name.$delim.$date[0].$date[1];
-//			$variants[] = $first_name.$delim.$last_name.$date[2];
-//			$variants[] = $first_name.$delim.$last_name.$delim.$date[2];
-//			$variants[] = $first_name.$delim.$last_name.$date[0].$date[1];
-//			$variants[] = $first_name.$delim.$last_name.$delim.$date[0].$date[1];
-//			$variants[] = $last_name.$delim.$first_name.$date[2];
-//			$variants[] = $last_name.$delim.$first_name.$delim.$date[2];
-//			$variants[] = $last_name.$delim.$first_name.$date[0].$date[1];
-//			$variants[] = $last_name.$delim.$first_name.$delim.$date[0].$date[1];
-//			$variants[] = $first_name_s.$delim.$last_name.$date[2];
-//			$variants[] = $first_name_s.$delim.$last_name.$delim.$date[2];
-//			$variants[] = $first_name_s.$delim.$last_name.$date[0].$date[1];
-//			$variants[] = $first_name_s.$delim.$last_name.$delim.$date[0].$date[1];
-//			$variants[] = $last_name.$delim.$first_name_s.$date[2];
-//			$variants[] = $last_name.$delim.$first_name_s.$delim.$date[2];
-//			$variants[] = $last_name.$delim.$first_name_s.$date[0].$date[1];
-//			$variants[] = $last_name.$delim.$first_name_s.$delim.$date[0].$date[1];
-//			$variants[] = $first_name_s.$last_name.$date[2];
-//			$variants[] = $first_name_s.$last_name.$delim.$date[2];
-//			$variants[] = $first_name_s.$last_name.$date[0].$date[1];
-//			$variants[] = $first_name_s.$last_name.$delim.$date[0].$date[1];
-//			$variants[] = $last_name.$first_name_s.$date[2];
-//			$variants[] = $last_name.$first_name_s.$delim.$date[2];
-//			$variants[] = $last_name.$first_name_s.$date[0].$date[1];
-//			$variants[] = $last_name.$first_name_s.$delim.$date[0].$date[1];
-//		}
-//		$i=0;
-//
-//		$exist = true;
-//		while (true) {
-//			if ($exist = $this->userExist($variants[$i])) {
-//				foreach ($delimiters as $del) {
-//					$replaced = str_replace($delim, $del, $variants[$i]);
-//					if($replaced !== $variants[$i]){
-//						$variants[$i] = $replaced;
-//						if (!$exist = $this->userExist($variants[$i]))
-//							break;
-//					}
-//				}
-//			}
-//			if ($i >= count($variants)-1 || !$exist)
-//				break;
-//			$i++;
-//		}
-//
-//		if ($exist) {
-//			while ($exist) {
-//				$nickname = $first_name.mt_rand(1, 100000);
-//				$exist = $this->userExist($nickname);
-//			}
-//			return $nickname;
-//		} else
-//			return $variants[$i];
-//	}
-//
-//
-//	/**
-//	 * Проверка существует ли пользователь с заданным логином
-//	 */
-//	protected function userExist($login){
-//		if (!$this->model_module_ulogin->checkUserName(strtolower($login))){
-//			return false;
-//		}
-//		return true;
-//	}
-//
-//
-//	/**
-//	 * Транслит
-//	 */
-//	protected function translitIt($str) {
-//		$tr = array(
-//			"А"=>"a","Б"=>"b","В"=>"v","Г"=>"g",
-//			"Д"=>"d","Е"=>"e","Ж"=>"j","З"=>"z","И"=>"i",
-//			"Й"=>"y","К"=>"k","Л"=>"l","М"=>"m","Н"=>"n",
-//			"О"=>"o","П"=>"p","Р"=>"r","С"=>"s","Т"=>"t",
-//			"У"=>"u","Ф"=>"f","Х"=>"h","Ц"=>"ts","Ч"=>"ch",
-//			"Ш"=>"sh","Щ"=>"sch","Ъ"=>"","Ы"=>"yi","Ь"=>"",
-//			"Э"=>"e","Ю"=>"yu","Я"=>"ya","а"=>"a","б"=>"b",
-//			"в"=>"v","г"=>"g","д"=>"d","е"=>"e","ж"=>"j",
-//			"з"=>"z","и"=>"i","й"=>"y","к"=>"k","л"=>"l",
-//			"м"=>"m","н"=>"n","о"=>"o","п"=>"p","р"=>"r",
-//			"с"=>"s","т"=>"t","у"=>"u","ф"=>"f","х"=>"h",
-//			"ц"=>"ts","ч"=>"ch","ш"=>"sh","щ"=>"sch","ъ"=>"y",
-//			"ы"=>"y","ь"=>"","э"=>"e","ю"=>"yu","я"=>"ya"
-//		);
-//		if (preg_match('/[^A-Za-z0-9\_\-]/', $str)) {
-//			$str = strtr($str,$tr);
-//			$str = preg_replace('/[^A-Za-z0-9\_\-\.]/', '', $str);
-//		}
-//		return $str;
-//	}
-
-
-
 	/**
 	 * Удаление привязки к аккаунту соцсети в таблице ulogin_user для текущего пользователя
 	 */
@@ -833,7 +687,7 @@ class ControllerModuleUlogin extends Controller {
 
 		if ($user_id > 0 && $network != '') {
 			try {
-				$this->model_module_ulogin->deleteUloginAccount(array('user_id' => $user_id, 'network' => $network));
+				$this->model_extension_module_ulogin->deleteUloginAccount(array('user_id' => $user_id, 'network' => $network));
 				echo json_encode(array(
 					'title' => '',
 					'msg' => sprintf($this->language->get('ulogin_delete_account_success'), $network), //"Удаление аккаунта $network успешно выполнено",
