@@ -64,8 +64,8 @@ class ControllerExtensionModuleUlogin extends Controller {
 		);
 
 		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_module'),
-			'href' => $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL')
+			'text' => $this->language->get('text_extension'),
+			'href' => $this->url->link('extension/extension', 'token=' . $this->session->data['token'], 'SSL')
 		);
 
 		if (!isset($this->request->get['module_id'])) {

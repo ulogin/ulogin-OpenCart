@@ -3,6 +3,7 @@
 $_['heading_title']    = 'uLogin - панель';
 
 // Text
+$_['text_extension']   = 'Расширения';
 $_['text_module']      = 'Модули';
 $_['text_success']     = 'Настройки успешно сохранены';
 $_['text_edit']        = 'Редактирование панели uLogin';
