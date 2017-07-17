@@ -54,7 +54,15 @@ function uloginCallback(token){
 					} else if (getURLVar('route') == 'account/logout') {
 						location.replace('/index.php?route=account/account');
 					} else {
-						location.reload();
+                        //сначала очищаем ulogin_token & ulogin_callback
+                        var currentUrl = location.href
+                            .replace(/ulogin_callback=([^&?]*?)#/, '#') //for "http://ulogin.ru/all.php?ulogin_token=a5d57a97267bbaec55c5d668737d4e1f&all=php#demo/match"
+                            .replace(/ulogin_callback=(.*?)(&|$)/, '')
+                            .replace(/ulogin_token=([^&?]*?)#/, '#')
+                            .replace(/ulogin_token=(.*?)(&|$)/, '')
+                            .replace(/(\?|&)#/, '#') //for "http://ulogin.ru/all.php?all=php&#demo/match"
+                            .replace(/(\?|&)$/, '');
+                        location.href = currentUrl;
 					}
 					break;
 			}

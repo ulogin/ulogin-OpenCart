@@ -3,7 +3,7 @@
 Donate link: http://ulogin.ru  
 Tags: ulogin, login, social, authorization  
 Tested up to: 2.1.0.1  
-Stable tag: 2.0.3  
+Stable tag: 2.0.4  
 License: GNU General Public License, version 2  
 
 **uLogin** — это инструмент, который позволяет пользователям получить единый доступ к различным Интернет-сервисам без необходимости повторной регистрации,
@@ -79,6 +79,9 @@ License: GNU General Public License, version 2
 Панель синхронизации в личном кабинете пользователя и панель авториации на страницах входа и регистрации настраивается в **модулях uLogin - панель > account_lk_online** и **uLogin - панель > account_offline**.
 
 ## Изменения
+
+####2.0.4
+* Исправление ошибок
 
 ####2.0.3
 * Исправление ошибок
